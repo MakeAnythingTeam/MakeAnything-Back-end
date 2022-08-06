@@ -1,34 +1,21 @@
 package com.example.MakeAnything.domain.modelfile.model;
 
-import com.example.MakeAnything.domain.model.model.Model;
-import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class ModelFile {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @Column(name = "modelFileId")
     private Long id;
 
-    private String originalFileName;
-
-    private String fileFullPath;
-
-    @OneToOne
-    @JoinColumn(name = "modelId")
-    private Model model;
-
-
-    @Builder
-    public ModelFile(String originalFileName, String fileFullPath,Model model) {
-        this.originalFileName = originalFileName;
-        this.fileFullPath = fileFullPath;
-        this.model = model;
-    }
+    private String modelFileUrl;
 }
