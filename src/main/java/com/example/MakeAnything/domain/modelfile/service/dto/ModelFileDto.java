@@ -12,20 +12,24 @@ public class ModelFileDto {
     private String originalFileName;
     private String fileFullPath;
 
+    private Long fileSize;
+
     private Model model;
 
     public ModelFile toEntity() {
         return ModelFile.builder()
                 .originalFileName(this.originalFileName)
                 .fileFullPath(this.fileFullPath)
+                .fileSize(this.fileSize)
                 .model(this.model)
                 .build();
     }
 
     @Builder
-    public ModelFileDto(String originalFileName, String fileFullPath, Model model) {
+    public ModelFileDto(String originalFileName, String fileFullPath, Long fileSize, Model model) {
         this.originalFileName = originalFileName;
         this.fileFullPath = fileFullPath;
+        this.fileSize = fileSize;
         this.model = model;
     }
 }

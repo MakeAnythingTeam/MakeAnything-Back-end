@@ -25,7 +25,7 @@ public class ModelController {
     @ResponseBody
     @PostMapping("")
     public ApiResponse<CreateModelResponse> createModel(@RequestBody CreateModelRequest createModelRequest) {
-        return null;
+        return ApiResponse.success(modelService.createModel(createModelRequest));
     }
 
     // 모델을 카테고리로 조회
@@ -64,8 +64,8 @@ public class ModelController {
     // 모델 수정
     @ResponseBody
     @PatchMapping("/{modelId}")
-    public ApiResponse<UpdateModelResponse> updateModel(@PathVariable ("modelId") Long modelId, @RequestBody UpdateModelRequest updateModelReqeust) {
-        return null;
+    public ApiResponse<UpdateModelResponse> updateModel(@PathVariable ("modelId") Long modelId, @RequestBody UpdateModelRequest updateModelRequest) {
+        return ApiResponse.success(modelService.updateModel(modelId, updateModelRequest));
     }
 
     // 모델 삭제
