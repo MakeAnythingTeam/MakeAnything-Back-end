@@ -8,14 +8,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class DeleteModelResponse {
-    private boolean success;
-    private String data;
-    private ErrorDTO error;
+    private String resultMessage;
 
     @Builder
-    public DeleteModelResponse(boolean success, String data, ErrorDTO error) {
-        this.success = success;
-        this.data = data;
-        this.error = error;
+    public DeleteModelResponse(String resultMessage) {
+        this.resultMessage = resultMessage;
     }
 }

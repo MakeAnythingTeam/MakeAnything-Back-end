@@ -9,7 +9,14 @@ import java.util.List;
 @Service
 public interface ModelService {
 
+    // 모델 전체 조회
     List<GetAllModelsResponse> getAllModels();
+
+    // 모델 카테고리 조회
+    List<GetModelByCategoryResponse> getModelsByCategory(Long categoryId);
+
+    // 모델 상세 조회
+    GetModelResponse getModel(Long modelId);
 
     // 모델 생성
     CreateModelResponse createModel(CreateModelRequest createModelRequest);
@@ -19,4 +26,9 @@ public interface ModelService {
 
     // 모델 삭제
     DeleteModelResponse deleteModel(Long modelId);
+
+    // 이름으로 모델 검색
+    List<GetModelByNameResponse> getModelByName(GetModelByNameRequest getModelByNameRequest);
+
+    // 상위 모델 조회
 }

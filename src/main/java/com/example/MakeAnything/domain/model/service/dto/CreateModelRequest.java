@@ -4,6 +4,8 @@ import com.example.MakeAnything.domain.category.model.Category;
 import com.example.MakeAnything.domain.model.model.Model;
 import com.example.MakeAnything.domain.modelfile.model.ModelFile;
 import com.example.MakeAnything.domain.modelimage.model.ModelImage;
+import com.example.MakeAnything.domain.tag.model.Tag;
+import com.example.MakeAnything.domain.user.model.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,20 +27,24 @@ public class CreateModelRequest {
     private MultipartFile modelFile;
     private List<MultipartFile> Images;
 
-    // category
-    // user
-    // tag
+    private String categoryName;
+    private Long userId;
+
+    private List<String> tags;
 
     @Builder
-    public CreateModelRequest(String modelName, Long price, String content, MultipartFile modelFile, List<MultipartFile> Images) {
+    public CreateModelRequest(String modelName, Long price, String content, MultipartFile modelFile, List<MultipartFile> Images, String categoryName, Long userId,List<String> tags) {
         this.modelName = modelName;
         this.price = price;
         this.content = content;
         this.modelFile = modelFile;
         this.Images = Images;
+        this.categoryName = categoryName;
+        this.userId = userId;
+        this.tags = tags;
     }
 
-    public Model toEntity() {
+    public List<ModelImage> toModelImage() {
 
         // 이미지 파일을 multipartFile 에서 ModelImage 로 변경하여 list 에 각각 삽입한다.
         List<ModelImage> modelImages = new ArrayList<>();
@@ -92,12 +98,18 @@ public class CreateModelRequest {
 
         }
 
+        return modelImages;
+    }
+
+    public Model toEntity(User user, Category category) {
         return Model.builder()
                 .modelName(modelName)
                 .price(price)
                 .content(content)
                 .modelFile((ModelFile) modelFile)
-                .modelImages(modelImages)
+                .modelImages(toModelImage())
+                .category(category)
+                .user(user)
                 .build();
     }
 }

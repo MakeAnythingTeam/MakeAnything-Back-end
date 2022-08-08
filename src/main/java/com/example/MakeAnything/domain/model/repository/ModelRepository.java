@@ -11,5 +11,9 @@ import java.util.Optional;
 public interface ModelRepository extends JpaRepository<Model, Long> {
     List<Model> findAllByUserId(Long userId);
 
-    List<Model> findByCategoryId(Long categoryId);
+    List<Model> findModelsByCategory(Long categoryId);
+
+    Model findModelById(Long modelId);
+
+    List<Model> findModelsByModelName(String modelName);
 }

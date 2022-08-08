@@ -8,14 +8,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UpdateModelResponse {
-    private boolean success;
-    private String data;
-    private ErrorDTO error;
+    private String resultMessage;
 
     @Builder
-    public UpdateModelResponse(boolean success, String data, ErrorDTO error) {
-        this.success = success;
-        this.data = data;
-        this.error = error;
+    public UpdateModelResponse(String resultMessage) {
+        this.resultMessage = resultMessage;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.MakeAnything.domain.user.model;
 
 import com.example.MakeAnything.domain.auth.service.dto.SignUpLocalRequest;
+import com.example.MakeAnything.domain.auth.service.dto.SignUpSocialRequest;
 import com.example.MakeAnything.domain.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "tb_user")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseTimeEntity {
@@ -53,4 +55,14 @@ public class User extends BaseTimeEntity {
                 .build();
     }
 
+    public static User newSocialInstance(SignUpSocialRequest request, String socialId, String email) {
+        return User.builder()
+                .userName(request.getUserName())
+                .socialId(socialId)
+                .email(email)
+                .nickName(request.getNickName())
+                .phoneNumber(request.getPhoneNumber())
+                .address(request.getAddress())
+                .build();
+    }
 }

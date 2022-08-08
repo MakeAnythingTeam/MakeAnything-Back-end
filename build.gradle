@@ -25,6 +25,7 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 	// LOMBOK
 	compileOnly 'org.projectlombok:lombok'
@@ -35,6 +36,10 @@ dependencies {
 
 	// TEST
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+
+	// swagger
+	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 
 }
 
