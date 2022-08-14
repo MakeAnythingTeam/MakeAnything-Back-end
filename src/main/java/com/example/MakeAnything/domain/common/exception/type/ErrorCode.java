@@ -9,25 +9,18 @@ public enum ErrorCode {
     INVALID_TYPE("BR001", "잘못된 타입이 입력되었습니다"),
 
     INVALID_MISSING_PARAMETER("BR100", "필수 파라미터가 입력되지 않았습니다"),
-    INVALID_MISSING_LATITUDE("BR101", "현재 위치의 위도를 입력해주세요 (latitude)"),
-    INVALID_MISSING_LONGITUDE("BR102", "현재 위치의 경도를 입력해주세요 (longitude)"),
-    INVALID_MISSING_MAP_LATITUDE("BR103", "지도상 위도를 입력해주세요 (mapLatitude)"),
-    INVALID_MISSING_MAP_LONGITUDE("BR104", "지도상 경도를 입력해주세요 (mapLongitude)"),
     INVALID_MISSING_AUTH_TOKEN("BR105", "인증 토큰을 입력해주세요"),
 
     INVALID_AUTH_TOKEN( "BR200", "만료되거나 유효하지 않은 인증 토큰입니다"),
-    INVALID_CONTACTS_NUMBER_FORMAT( "BR201", "잘못된 연락처 번호입니다."),
-    INVALID_BUSINESS_NUMBER_FORMAT("BR202", "잘못된 사업자 번호입니다"),
-    INVALID_RATING_RANGE("BR203", "잘못된 평가 점수입니다\n(1 ~ 5 사이의 평가 점수를 입력해주세요)"),
-    INVALID_LATITUDE_RANGE( "BR204", "잘못된 위도 범위를 입력하였습니다\n(33.1 ~ 38.61 사이의 위도를 입력해주세요)"),
-    INVALID_LONGITUDE_RANGE("BR205", "잘못된 경도 범위를 입력하였습니다\n(124.60 ~ 131.87 사이의 경도를 입력해주세요)"),
+    INVALID_KAKAO_TOKEN( "BR201", "만료되거나 유효하지 않은 카카오 토큰입니다"),
+    INVALID_CONTACTS_NUMBER_FORMAT( "BR202", "잘못된 연락처 번호입니다."),
     INVALID_EMPTY_UPLOAD_FILE_NAME( "BR206", "잘못된 파일입니다\n파일의 이름이 없습니다."),
     INVALID_UPLOAD_FILE_TYPE("BR207", "잘못된 파일 확장자입니다"),
     INVALID_UPLOAD_FILE_SIZE("BR208", "업로드 가능한 파일 크기를 초과했습니다"),
-    INVALID_BADGE_CODE( "BR209", "잘못된 뱃지코드입니다."),
 
     // 401 UnAuthorized
     UNAUTHORIZED("UA000", "세션이 만료되었습니다. 다시 로그인 해주세요"),
+    FAIL_TO_LOGIN("UA001", "없는 아이디거나 비밀번호가 틀렸습니다."),
 
 
     // 403 Forbidden
@@ -37,17 +30,11 @@ public enum ErrorCode {
     // 404 Not Found
     NOTFOUND("NF000", "존재하지 않습니다"),
     NOTFOUND_USER( "NF001", "탈퇴하거나 존재하지 않는 유저입니다"),
-    NOTFOUND_STORE( "NF002", "삭제되거나 존재하지 않는 가게입니다"),
+    NOTFOUND_MODEL( "NF002", "삭제되거나 존재하지 않는 모델입니다"),
     NOTFOUND_REVIEW("NF003", "삭제되거나 존재하지 않는 리뷰입니다"),
     NOTFOUND_BOARD("NF004", "삭제되거나 존재하지 않는 게시글입니다"),
     NOTFOUND_COMMENT("NF005", "삭제되거나 존재하지 않는 댓글입니다"),
-    NOTFOUND_STORE_IMAGE("NF006", "삭제되거나 존재하지 않는 가게 이미지입니다"),
-    NOTFOUND_FAQ("NF007", "삭제되거나 존재하지 않는 FAQ입니다"),
-    NOTFOUND_BADGE("N008", "보유하고 있지 않은 뱃지입니다"),
-    NOTFOUND_BOSS("N009", "존재하지 않는 사장님 계정입니다"),
-    NOTFOUND_BOSS_OWNED_STORE("NF010", "사장님이 운영하는 가게가 존재하지 않습니다."),
-    NOTFOUND_SIGNUP_REGISTRATION("NF011", "해당하는 가입 신청은 존재하지 않습니다"),
-    NOTFOUND_MENU("NF012", "삭제되거나 존재하지 않는 메뉴입니다"),
+    NOTFOUND_REFRESH_TOKEN( "NF006", "삭제되거나 존재하지 않는 리프레시토큰입니다"),
 
 
     // 405 Method Not Allowed

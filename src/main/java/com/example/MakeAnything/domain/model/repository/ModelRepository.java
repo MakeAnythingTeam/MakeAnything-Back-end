@@ -4,6 +4,17 @@ import com.example.MakeAnything.domain.model.model.Model;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
-public interface ModelRepository extends JpaRepository<Long, Model> {
+public interface ModelRepository extends JpaRepository<Model, Long> {
+    List<Model> findAllByUserId(Long userId);
+
+    List<Model> findModelsByCategory(Long categoryId);
+
+    Model findModelById(Long modelId);
+
+    List<Model> findModelsByModelName(String modelName);
+    List<Model> findAllByOrderByDownloadCountDesc();
 }
