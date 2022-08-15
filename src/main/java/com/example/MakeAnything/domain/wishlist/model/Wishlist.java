@@ -1,5 +1,6 @@
 package com.example.MakeAnything.domain.wishlist.model;
 
+import com.example.MakeAnything.domain.common.BaseTimeEntity;
 import com.example.MakeAnything.domain.model.model.Model;
 import com.example.MakeAnything.domain.user.model.User;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Wishlist {
+public class Wishlist extends BaseTimeEntity {
     @Id
     @Column(name = "id", nullable = false)
     private Long id;

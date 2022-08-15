@@ -1,6 +1,7 @@
 package com.example.MakeAnything.domain.user.service.dto;
 
 import com.example.MakeAnything.domain.model.model.Model;
+import com.example.MakeAnything.domain.modelimage.model.ModelImage;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,8 @@ public class BuyModelsResponse {
 
     private String modelName;
 
+    private String modelFirstImage;
+
     private Long userId;
 
     private String userName;
@@ -26,8 +29,15 @@ public class BuyModelsResponse {
     private LocalDateTime paidAt;
 
     public static BuyModelsResponse of(Model model) {
+        String modelFirstImage;
 
-        return new BuyModelsResponse(model.getId(), model.getModelName(), model.getUser().getId(), model.getUser().getUserName(),
-                model.getDownloadCount(), model.getPrice(), LocalDateTime.now());
+        if (model.getModelImages().isEmpty()) {
+            modelFirstImage = null;
+        } else {
+            modelFirstImage = model.getModelImages().get(0).getImageFullPath();
+        }
+
+        return new BuyModelsResponse(model.getId(), model.getModelName(), modelFirstImage, model.getUser().getId(),
+                model.getUser().getUserName(), model.getDownloadCount(), model.getPrice(), LocalDateTime.now());
     }
 }

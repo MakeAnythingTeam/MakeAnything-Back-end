@@ -1,6 +1,7 @@
 package com.example.MakeAnything.domain.user.service;
 
 import com.example.MakeAnything.domain.model.repository.ModelRepository;
+import com.example.MakeAnything.domain.order.repository.OrderRepository;
 import com.example.MakeAnything.domain.user.service.dto.BuyModelsResponse;
 import com.example.MakeAnything.domain.user.service.dto.SellModelsResponse;
 import com.example.MakeAnything.domain.user.service.dto.WishModelsResponse;
@@ -18,6 +19,7 @@ public class UserServiceImpl implements UserService {
     private final WishlistRepository wishlistRepository;
 
     private final ModelRepository modelRepository;
+    private final OrderRepository orderRepository;
 
     @Override
     public List<SellModelsResponse> getSellModels(Long userId) {
@@ -28,7 +30,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<BuyModelsResponse> getBuyModels(Long userId) {
-        return null;
+        return orderRepository.findAllByUserId(userId).stream()
+                .map(order -> BuyModelsResponse.of(order.getModel()))
+                .collect(Collectors.toList());
     }
 
 
