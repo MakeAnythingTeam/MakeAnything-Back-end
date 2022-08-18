@@ -13,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Table(name = "tb_order")
 @NoArgsConstructor
 public class Order extends BaseTimeEntity {
     @Id

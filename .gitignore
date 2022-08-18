@@ -22,6 +22,8 @@ application-local.yml
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+MakeAnythingApplicationTests.java
+MakeAnythingApplication.java
 
 ### IntelliJ IDEA ###
 .idea
