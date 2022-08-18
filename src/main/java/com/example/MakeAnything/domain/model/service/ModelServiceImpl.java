@@ -1,30 +1,21 @@
 package com.example.MakeAnything.domain.model.service;
 
 import com.example.MakeAnything.domain.category.model.Category;
-import com.example.MakeAnything.domain.category.repository.CategoryRepository;
-import com.example.MakeAnything.domain.common.exception.model.ErrorDTO;
-import com.example.MakeAnything.domain.common.exception.type.ErrorCode;
 import com.example.MakeAnything.domain.model.model.Model;
 import com.example.MakeAnything.domain.model.repository.ModelRepository;
 import com.example.MakeAnything.domain.model.service.dto.*;
-import com.example.MakeAnything.domain.modelfile.model.ModelFile;
-import com.example.MakeAnything.domain.modelfile.repository.ModelFileRepository;
-import com.example.MakeAnything.domain.modelimage.model.ModelImage;
-import com.example.MakeAnything.domain.modelimage.repository.ModelImageRepository;
-import com.example.MakeAnything.domain.modeltag.model.ModelTag;
-import com.example.MakeAnything.domain.modeltag.repository.ModelTagRepository;
+import com.example.MakeAnything.domain.modelfile.service.ModelFileService;
+import com.example.MakeAnything.domain.modelimage.service.ModelImageService;
+import com.example.MakeAnything.domain.modeltag.service.ModelTagService;
 import com.example.MakeAnything.domain.tag.model.Tag;
-import com.example.MakeAnything.domain.tag.repository.TagRepository;
+import com.example.MakeAnything.domain.tag.service.TagService;
 import com.example.MakeAnything.domain.user.model.User;
 import com.example.MakeAnything.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,7 +27,13 @@ public class ModelServiceImpl implements ModelService {
 
     private final UserRepository userRepository;
 
-    private final CategoryRepository categoryRepository;
+    private final ModelFileService modelFileService;
+
+    private final ModelImageService modelImageService;
+
+    private final ModelTagService modelTagService;
+
+    private final TagService tagService;
 
 
     // 모델 조회
@@ -70,25 +67,25 @@ public class ModelServiceImpl implements ModelService {
     // 모델 생성
     @Override
     @Transactional
-    public CreateModelResponse createModel(CreateModelRequest createModelRequest) {
+    public CreateModelResponse createModel(Long userId, CreateModelRequest createModelRequest) {
 
-        User user = userRepository.findUserById(createModelRequest.getUserId());
-        Optional<Category> optionalCategory = Optional.ofNullable(categoryRepository.findCategoryByCategoryName(createModelRequest.getCategoryName()));
-        Category category = new Category();
-
-        if (optionalCategory.isPresent()) {
-            category = optionalCategory.get();
-        } else {
-            categoryRepository.save(Category.builder().categoryName(createModelRequest.getCategoryName()).build());
-        }
+        User user = userRepository.findUserById(userId);
+        Category category = Category.valueOf(createModelRequest.getCategoryName());
 
         Model model = createModelRequest.toEntity(user, category);
         modelRepository.save(model);
 
-        return CreateModelResponse.builder()
+        List<Tag> tags = tagService.createTags(createModelRequest.getTags());
+        modelTagService.createModelTag(model.getId(), tags);
+        modelFileService.createModelFile(model.getId(),createModelRequest.getModelFile());
+        modelImageService.createModelImages(model.getId(), createModelRequest.getImages());
+
+        CreateModelResponse createModelResponse = CreateModelResponse.builder()
                 .modelId(model.getId())
                 .resultMessage("success")
                 .build();
+
+        return createModelResponse;
     }
 
     // 모델 수정
@@ -100,7 +97,7 @@ public class ModelServiceImpl implements ModelService {
         if (optionalModel.isPresent()) {
             Model model = optionalModel.get();
 
-            Category category = categoryRepository.findCategoryByCategoryName(updateModelRequest.getCategoryName());
+            Category category = Category.valueOf(updateModelRequest.getCategoryName());
 
             model.updateModel(category, updateModelRequest.getModelName(),
                     updateModelRequest.getPrice(),

@@ -18,7 +18,7 @@ public interface ModelService {
     GetModelResponse getModel(Long modelId);
 
     // 모델 생성
-    CreateModelResponse createModel(CreateModelRequest createModelRequest);
+    CreateModelResponse createModel(Long userId,CreateModelRequest createModelRequest);
 
     // 모델 수정
     UpdateModelResponse updateModel(Long modelId, UpdateModelRequest updateModelRequest);

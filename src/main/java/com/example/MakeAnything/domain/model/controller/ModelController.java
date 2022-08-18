@@ -46,15 +46,7 @@ public class ModelController {
 
         Long userId = jwtService.getUserId();
 
-        if (userId != createModelRequest.getUserId()) {
-            return ApiResponse.error(ErrorCode.INVALID);
-        }
-
-        CreateModelResponse createModelResponse = modelService.createModel(createModelRequest);
-        List<Tag> tags = tagService.createTags(createModelRequest.getTags());
-        modelTagService.createModelTag(createModelResponse.getModelId(),tags);
-        modelFileService.createModelFile(createModelResponse.getModelId(), createModelRequest.getModelFile());
-        modelImageService.createModelImages(createModelResponse.getModelId(), createModelRequest.getImages());
+        CreateModelResponse createModelResponse = modelService.createModel(userId, createModelRequest);
 
         return ApiResponse.success(createModelResponse);
     }
