@@ -40,7 +40,7 @@ public class ModelImageServiceImpl implements ModelImageService{
 
         multipartFiles.forEach((f) -> {
             try {
-                String S3Url = s3Uploader.upload(f, "images");
+                String S3Url = s3Uploader.upload(f, "images",".jpg");
 
                 ModelImage modelImage = ModelImage.builder()
                         .originalImageName(f.getOriginalFilename())

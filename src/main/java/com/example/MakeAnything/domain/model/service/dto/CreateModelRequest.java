@@ -24,19 +24,14 @@ public class CreateModelRequest {
     private String modelName;
     private Long price;
     private String content;
-    private MultipartFile modelFile;
-    private List<MultipartFile> images;
-
     private String categoryName;
     private List<String> tags;
 
     @Builder
-    public CreateModelRequest(String modelName, Long price, String content, MultipartFile modelFile, List<MultipartFile> images, String categoryName,List<String> tags) {
+    public CreateModelRequest(String modelName, Long price, String content, String categoryName,List<String> tags) {
         this.modelName = modelName;
         this.price = price;
         this.content = content;
-        this.modelFile = modelFile;
-        this.images = images;
         this.categoryName = categoryName;
         this.tags = tags;
     }

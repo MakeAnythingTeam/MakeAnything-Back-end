@@ -1,7 +1,6 @@
-package com.example.MakeAnything.domain.model.service.dto;
+package com.example.MakeAnything.domain.modeltag.service.dto;
 
 import com.example.MakeAnything.domain.model.model.Model;
-import com.example.MakeAnything.domain.modelimage.model.ModelImage;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class GetTopModelResponse implements Comparable<GetTopModelResponse>{
+public class GetModelsByTagNameResponse implements Comparable<GetModelsByTagNameResponse>{
     private Long modelId;
     private String modelName;
     private Long price;
@@ -19,13 +18,13 @@ public class GetTopModelResponse implements Comparable<GetTopModelResponse>{
     private String userNickName;
     private String modelImageUrl;
 
-    public static GetTopModelResponse of(Model model, String modelImageUrl) {
-        return new GetTopModelResponse(model.getId(), model.getModelName(), model.getPrice(), model.getDownloadCount()
+    public static GetModelsByTagNameResponse of(Model model, String modelImageUrl) {
+        return new GetModelsByTagNameResponse(model.getId(), model.getModelName(), model.getPrice(), model.getDownloadCount()
                 , model.getUser().getNickName(), modelImageUrl);
     }
 
     @Override
-    public int compareTo(@NotNull GetTopModelResponse o) {
-        return this.getDownloadCount().compareTo(o.getDownloadCount());
+    public int compareTo(@NotNull GetModelsByTagNameResponse o) {
+        return this.getModelId().compareTo(o.getModelId());
     }
 }

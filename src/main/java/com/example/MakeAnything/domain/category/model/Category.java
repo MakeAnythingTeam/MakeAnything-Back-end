@@ -23,9 +23,6 @@ public enum Category {
         this.categoryName = categoryName;
     }
 
-    @OneToMany(mappedBy = "category")
-    private List<Model> model;
-
     public static Category fromCode(String dbData) {
         return Arrays.stream(Category.values())
                 .filter(v -> v.getCategoryName().equals(dbData))

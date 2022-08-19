@@ -1,4 +1,4 @@
-package com.example.MakeAnything.domain.model.service.dto;
+package com.example.MakeAnything.domain.modeltag.service.dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class GetModelByTagRequest {
+public class GetModelsByTagNameRequest {
     String tagName;
 
     @Builder
-    public GetModelByTagRequest(String tagName) {
+    public GetModelsByTagNameRequest(String tagName) {
         this.tagName = tagName;
     }
 }

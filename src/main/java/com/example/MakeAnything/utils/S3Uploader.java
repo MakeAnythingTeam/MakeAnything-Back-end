@@ -27,8 +27,8 @@ public class S3Uploader {
     private String bucket;
 
 
-    public String upload(MultipartFile multipartFile, String dirName) throws IOException {
-        File uploadFile = convert(multipartFile)
+    public String upload(MultipartFile multipartFile, String dirName,String contentType) throws IOException {
+        File uploadFile = convert(multipartFile,contentType)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
 
         return upload(uploadFile, dirName);
@@ -54,13 +54,11 @@ public class S3Uploader {
         }
     }
 
-    private Optional<File> convert(MultipartFile file) throws IOException {
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        String current_date = simpleDateFormat.format(new Date());
-
-        File convertFile = new File(file.getOriginalFilename() + current_date);
-        System.out.println("convertFile = " + convertFile);
+    private Optional<File> convert(MultipartFile file,String contentType) throws IOException {
+        long millis = System.currentTimeMillis();
+        String current_date = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(millis);
+        File convertFile = new File(file.getName() + current_date + contentType);
+        log.info("convertFile = " + convertFile);
         if(convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());

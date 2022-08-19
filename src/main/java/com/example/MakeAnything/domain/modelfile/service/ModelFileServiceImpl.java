@@ -36,7 +36,7 @@ public class ModelFileServiceImpl implements ModelFileService{
         Model model = modelRepository.findModelById(modelId);
 
         try {
-            String S3Url = s3Uploader.upload(multipartFile, "files");
+            String S3Url = s3Uploader.upload(multipartFile, "files",".zip");
 
             ModelFile modelFile = ModelFile.builder()
                     .originalFileName(multipartFile.getOriginalFilename())
