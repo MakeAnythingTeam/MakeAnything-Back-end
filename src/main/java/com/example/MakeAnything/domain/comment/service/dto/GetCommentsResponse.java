@@ -10,11 +10,11 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class GetCommentsResponse {
-    private List<Comment> comments;
+    private List<String> comments;
     private String resultMessage;
 
     @Builder
-    public GetCommentsResponse(List<Comment> comments, String resultMessage) {
+    public GetCommentsResponse(List<String> comments, String resultMessage) {
         this.comments = comments;
         this.resultMessage = resultMessage;
     }

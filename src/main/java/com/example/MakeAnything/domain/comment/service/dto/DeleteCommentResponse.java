@@ -8,9 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeleteCommentResponse {
     private String resultMessage;
+    private Long commentId;
 
     @Builder
-    public DeleteCommentResponse(String resultMessage) {
+    public DeleteCommentResponse(String resultMessage, Long commentId) {
         this.resultMessage = resultMessage;
+        this.commentId = commentId;
     }
 }

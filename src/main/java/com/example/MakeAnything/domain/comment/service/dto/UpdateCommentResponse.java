@@ -8,9 +8,11 @@ import lombok.Setter;
 @Setter
 public class UpdateCommentResponse {
     private String resultMessage;
+    private Long commentId;
 
     @Builder
-    public UpdateCommentResponse(String resultMessage) {
+    public UpdateCommentResponse(String resultMessage, Long commentId) {
         this.resultMessage = resultMessage;
+        this.commentId = commentId;
     }
 }

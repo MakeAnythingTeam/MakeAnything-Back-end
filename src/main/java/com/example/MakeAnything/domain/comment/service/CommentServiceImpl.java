@@ -13,10 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CommentServiceImpl implements CommentService{
+public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
 
@@ -27,7 +28,7 @@ public class CommentServiceImpl implements CommentService{
     // 댓글 생성
     @Override
     @Transactional
-    public CreateCommentResponse createComment(Long modelId,Long userId, CreateCommentRequest createCommentRequest) {
+    public CreateCommentResponse createComment(Long modelId, Long userId, CreateCommentRequest createCommentRequest) {
         Model model = modelRepository.findModelById(modelId);
         User user = userRepository.findUserById(userId);
 
@@ -41,6 +42,7 @@ public class CommentServiceImpl implements CommentService{
 
         return CreateCommentResponse.builder()
                 .resultMessage("success")
+                .commentId(newComment.getId())
                 .build();
     }
 
@@ -60,6 +62,7 @@ public class CommentServiceImpl implements CommentService{
         }
         return UpdateCommentResponse.builder()
                 .resultMessage("success")
+                .commentId(commentId)
                 .build();
     }
 
@@ -79,6 +82,7 @@ public class CommentServiceImpl implements CommentService{
 
         return DeleteCommentResponse.builder()
                 .resultMessage("success")
+                .commentId(commentId)
                 .build();
     }
 
@@ -90,7 +94,11 @@ public class CommentServiceImpl implements CommentService{
         List<Comment> comments = commentRepository.findCommentsByModel(modelById);
 
         return GetCommentsResponse.builder()
-                .comments(comments)
+                .comments(
+                        comments.stream()
+                                .filter(comment -> comment.getDeletedAt()==null)
+                                .map(comment -> comment.getContent())
+                                .collect(Collectors.toList()))
                 .resultMessage("success")
                 .build();
     }
