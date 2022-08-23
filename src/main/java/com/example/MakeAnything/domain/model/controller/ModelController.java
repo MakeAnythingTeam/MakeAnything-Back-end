@@ -11,6 +11,7 @@ import com.example.MakeAnything.domain.modelimage.service.ModelImageService;
 import com.example.MakeAnything.domain.modeltag.service.ModelTagService;
 import com.example.MakeAnything.domain.tag.model.Tag;
 import com.example.MakeAnything.domain.tag.service.TagService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -99,5 +100,15 @@ public class ModelController {
         } else {
             return ApiResponse.error(ErrorCode.INVALID_AUTH_TOKEN);
         }
+    }
+
+    /**
+     * 결제 이후 다운로드
+     * */
+    @GetMapping("/download/{modelId}")
+    @ApiOperation(value = "결제 이후 다운로드")
+    public ApiResponse<DownloadModelResponse> downloadModel(@PathVariable("modelId") Long modelId) {
+        Long userId = jwtService.getUserId();
+        return ApiResponse.success(modelService.downloadModel(userId, modelId));
     }
 }

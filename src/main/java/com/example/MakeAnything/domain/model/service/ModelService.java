@@ -32,4 +32,7 @@ public interface ModelService {
 
     // 상위 모델 조회
     List<GetTopModelResponse> getTopModel();
+
+    // 모델 다운로드
+    DownloadModelResponse downloadModel(Long userId, Long modelId);
 }

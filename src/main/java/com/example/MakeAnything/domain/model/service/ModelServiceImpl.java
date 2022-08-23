@@ -9,6 +9,8 @@ import com.example.MakeAnything.domain.modelimage.model.ModelImage;
 import com.example.MakeAnything.domain.modelimage.service.ModelImageService;
 import com.example.MakeAnything.domain.modeltag.model.ModelTag;
 import com.example.MakeAnything.domain.modeltag.service.ModelTagService;
+import com.example.MakeAnything.domain.order.model.Order;
+import com.example.MakeAnything.domain.order.repository.OrderRepository;
 import com.example.MakeAnything.domain.tag.model.Tag;
 import com.example.MakeAnything.domain.tag.service.TagService;
 import com.example.MakeAnything.domain.user.model.User;
@@ -42,6 +44,8 @@ public class ModelServiceImpl implements ModelService {
     private final TagService tagService;
 
     private final S3Getter s3Getter;
+
+    private final OrderRepository orderRepository;
 
 
     // 모델 조회
@@ -84,7 +88,7 @@ public class ModelServiceImpl implements ModelService {
     @Transactional(readOnly = true)
     public List<GetModelByCategoryResponse> getModelsByCategory(String category) {
         return modelRepository.findAll().stream()
-                .filter(model -> model.getDeletedAt()==null)
+                .filter(model -> model.getDeletedAt() == null)
                 .map(model -> GetModelByCategoryResponse.of(model))
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
@@ -179,5 +183,28 @@ public class ModelServiceImpl implements ModelService {
                 .map(model -> GetTopModelResponse.of(model, model.getModelImages().get(0).getImageFullPath()))
                 .sorted(Comparator.reverseOrder())
                 .collect(Collectors.toList());
+    }
+
+    // 모델 다운로드
+    @Transactional
+    @Override
+    public DownloadModelResponse downloadModel(Long userId, Long modelId) {
+        Optional<Order> order = Optional.ofNullable(orderRepository.findOrderByUserIdAndModelId(userId, modelId));
+
+        if (order.isPresent()) {
+            Model model = modelRepository.findModelById(modelId);
+            String modelFileUrl = model.getModelFile().getFileFullPath();
+
+            DownloadModelResponse downloadModelResponse = DownloadModelResponse.builder()
+                    .modelFileUrl(modelFileUrl)
+                    .resultMessage("success")
+                    .build();
+
+            return downloadModelResponse;
+        } else
+            return DownloadModelResponse.builder()
+                .modelFileUrl(null)
+                .resultMessage("fail")
+                .build();
     }
 }
