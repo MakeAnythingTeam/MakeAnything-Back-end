@@ -14,6 +14,8 @@ import com.example.MakeAnything.domain.tag.service.TagService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,8 +33,8 @@ public class ModelController {
     // 전체 모델 조회 ( 완 )
     @GetMapping("")
     @ApiOperation(value = "모델 전체 조회")
-    public ApiResponse<List<GetAllModelsResponse>> getAllModels(){
-        return ApiResponse.success(modelService.getAllModels());
+    public ApiResponse<List<GetAllModelsResponse>> getAllModels(@PageableDefault(size = 15) Pageable pageable){
+        return ApiResponse.success(modelService.getAllModels(pageable));
     }
 
     // 모델 ( 게시물 ) 생성 ( 완 )
@@ -54,23 +56,23 @@ public class ModelController {
     // 모델을 카테고리로 조회 ( 미완 )
     @GetMapping("/category/{category}")
     @ApiOperation(value = "카테고리 조회")
-    public ApiResponse<List<GetModelByCategoryResponse>> getModelByCategory(@PathVariable ("category") String category) {
-        return ApiResponse.success(modelService.getModelsByCategory(category));
+    public ApiResponse<List<GetModelByCategoryResponse>> getModelByCategory(@PathVariable ("category") String category, @PageableDefault(size = 15) Pageable pageable) {
+        return ApiResponse.success(modelService.getModelsByCategory(pageable, category));
     }
     
     // 모델 이름 조회 ( 검색 ) ( 완료 )
     @ResponseBody
     @GetMapping("/search/name")
     @ApiOperation(value = "이름으로 모델 검색")
-    public ApiResponse<List<GetModelByNameResponse>> getModelByName(@RequestBody GetModelByNameRequest getModelByNameRequest) {
-        return ApiResponse.success(modelService.getModelByName(getModelByNameRequest));
+    public ApiResponse<List<GetModelByNameResponse>> getModelByName(@RequestBody GetModelByNameRequest getModelByNameRequest, @PageableDefault(size = 15) Pageable pageable) {
+        return ApiResponse.success(modelService.getModelByName(pageable, getModelByNameRequest));
     }
 
     // 인기 모델 상위 조회 ( 완 )
     @GetMapping("/topRated")
     @ApiOperation(value = "다운로드 상위 모델 조회")
-    public ApiResponse<List<GetTopModelResponse>> getTopModel() {
-        return ApiResponse.success(modelService.getTopModel());
+    public ApiResponse<List<GetTopModelResponse>> getTopModel(@PageableDefault(size = 15) Pageable pageable) {
+        return ApiResponse.success(modelService.getTopModel(pageable));
     }
 
     // 모델 상세 정보 조회 ( 완료 )

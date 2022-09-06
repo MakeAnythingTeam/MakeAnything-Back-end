@@ -17,6 +17,7 @@ import com.example.MakeAnything.domain.user.model.User;
 import com.example.MakeAnything.domain.user.repository.UserRepository;
 import com.example.MakeAnything.utils.S3Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,8 +52,8 @@ public class ModelServiceImpl implements ModelService {
     // 모델 조회
     @Override
     @Transactional(readOnly = true)
-    public List<GetAllModelsResponse> getAllModels() {
-        return modelRepository.findAll().stream()
+    public List<GetAllModelsResponse> getAllModels(Pageable pageable) {
+        return modelRepository.findAll(pageable).stream()
                 .filter(model -> model.getDeletedAt() == null)
                 .map(model -> GetAllModelsResponse.of(model, model.getModelImages().get(0).getImageFullPath()))
                 .sorted(Comparator.reverseOrder())
@@ -86,8 +87,8 @@ public class ModelServiceImpl implements ModelService {
     // 카테고리 이름으로 모델 조회
     @Override
     @Transactional(readOnly = true)
-    public List<GetModelByCategoryResponse> getModelsByCategory(String category) {
-        return modelRepository.findAll().stream()
+    public List<GetModelByCategoryResponse> getModelsByCategory(Pageable pageable, String category) {
+        return modelRepository.findAll(pageable).stream()
                 .filter(model -> model.getDeletedAt() == null)
                 .map(model -> GetModelByCategoryResponse.of(model))
                 .sorted(Comparator.reverseOrder())
@@ -166,8 +167,8 @@ public class ModelServiceImpl implements ModelService {
     // 이름으로 모델 검색
     @Transactional(readOnly = true)
     @Override
-    public List<GetModelByNameResponse> getModelByName(GetModelByNameRequest getModelByNameRequest) {
-        return modelRepository.findModelsByModelName(getModelByNameRequest.getModelName()).stream()
+    public List<GetModelByNameResponse> getModelByName(Pageable pageable, GetModelByNameRequest getModelByNameRequest) {
+        return modelRepository.findModelsByModelNameIsContaining(pageable, getModelByNameRequest.getModelName()).stream()
                 .filter(model -> model.getDeletedAt() == null)
                 .map(model -> GetModelByNameResponse.of(model, model.getModelImages().get(0).getImageFullPath()))
                 .sorted(Comparator.reverseOrder())
@@ -177,8 +178,8 @@ public class ModelServiceImpl implements ModelService {
     // 상위 모델 조회
     @Transactional(readOnly = true)
     @Override
-    public List<GetTopModelResponse> getTopModel() {
-        return modelRepository.findAll().stream()
+    public List<GetTopModelResponse> getTopModel(Pageable pageable) {
+        return modelRepository.findAll(pageable).stream()
                 .filter(model -> model.getDeletedAt() == null)
                 .map(model -> GetTopModelResponse.of(model, model.getModelImages().get(0).getImageFullPath()))
                 .sorted(Comparator.reverseOrder())
