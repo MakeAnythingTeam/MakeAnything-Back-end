@@ -1,5 +1,6 @@
 package com.example.MakeAnything.domain.model.model;
 
+import com.example.MakeAnything.aop.anotation.Trace;
 import com.example.MakeAnything.domain.category.model.Category;
 import com.example.MakeAnything.domain.category.model.CategoryConverter;
 import com.example.MakeAnything.domain.common.BaseTimeEntity;
@@ -66,6 +67,7 @@ public class Model{
     }
 
     // 수정 ( 파일과 이미지는 수정 불가 ) 태그는 추가로 구현해야 함.
+    @Trace
     public void updateModel(Category category, String modelName, Long price, String content) {
         this.category = category;
         this.modelName = modelName;
