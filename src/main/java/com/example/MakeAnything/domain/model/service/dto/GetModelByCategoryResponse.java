@@ -28,9 +28,4 @@ public class GetModelByCategoryResponse implements Comparable<GetModelByCategory
     public int compareTo(@NotNull GetModelByCategoryResponse o) {
         return this.getModelId().compareTo(o.getModelId());
     }
-
-    @Override
-    public int compareTo(@NotNull GetModelByCategoryResponse o) {
-        return this.getModelId().compareTo(o.getModelId());
-    }
 }
