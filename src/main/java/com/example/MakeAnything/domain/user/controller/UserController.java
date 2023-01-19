@@ -1,5 +1,6 @@
 package com.example.MakeAnything.domain.user.controller;
 
+import com.example.MakeAnything.config.resolver.UserId;
 import com.example.MakeAnything.domain.common.ApiResponse;
 import com.example.MakeAnything.domain.user.service.UserService;
 import com.example.MakeAnything.domain.user.service.dto.BuyModelsResponse;
@@ -18,18 +19,18 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/users/{userId}/sell")
-    public ApiResponse<List<SellModelsResponse>> getSellModels(@PathVariable Long userId) {
+    @GetMapping("/users/sell")
+    public ApiResponse<List<SellModelsResponse>> getSellModels(@UserId Long userId) {
         return ApiResponse.success(userService.getSellModels(userId));
     }
 
-    @GetMapping("/users/{userId}/buy")
-    public ApiResponse<List<BuyModelsResponse>> getBuyModels(@PathVariable Long userId) {
+    @GetMapping("/users/buy")
+    public ApiResponse<List<BuyModelsResponse>> getBuyModels(@UserId Long userId) {
         return ApiResponse.success(userService.getBuyModels(userId));
     }
 
-    @GetMapping("/users/{userId}/wish")
-    public ApiResponse<List<WishModelsResponse>> getWishModels(@PathVariable Long userId) {
+    @GetMapping("/users/wish")
+    public ApiResponse<List<WishModelsResponse>> getWishModels(@UserId Long userId) {
         return ApiResponse.success(userService.getWishModels(userId));
     }
 

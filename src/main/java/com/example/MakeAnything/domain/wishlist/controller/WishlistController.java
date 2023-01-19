@@ -1,6 +1,6 @@
 package com.example.MakeAnything.domain.wishlist.controller;
 
-import com.example.MakeAnything.domain.auth.service.noSecurity.JwtService;
+import com.example.MakeAnything.config.resolver.UserId;
 import com.example.MakeAnything.domain.common.ApiResponse;
 import com.example.MakeAnything.domain.wishlist.service.WishlistService;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class WishlistController {
 
     private final WishlistService wishlistService;
-    private final JwtService jwtService;
 
     @PostMapping("/models/{modelId}/wish")
-    public ApiResponse<Object> toggleModelWish(@PathVariable Long modelId) {
-        Long userId = jwtService.getUserId();
+    public ApiResponse<Object> toggleModelWish(@PathVariable Long modelId, @UserId Long userId) {
 
         wishlistService.toggleModelWish(userId, modelId);
 
