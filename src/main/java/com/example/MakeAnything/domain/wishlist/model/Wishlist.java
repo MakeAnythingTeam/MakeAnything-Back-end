@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Wishlist extends BaseTimeEntity {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
