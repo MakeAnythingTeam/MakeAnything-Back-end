@@ -66,7 +66,7 @@ public class JwtTokenProvider {
 
         String refreshToken = Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-                .setIssuer("debrains")
+                .setIssuer("makeAnything")
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .compact();
@@ -110,8 +110,9 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException | UnsupportedJwtException | IllegalStateException e) {
-            throw new BaseException(ErrorCode.INVALID_AUTH_TOKEN);
+            System.out.println("refresh 토큰이 유효하지 않습니다.");
         }
+        return false;
     }
 
     // Access Token 만료시 갱신때 사용할 정보를 얻기 위해 Claim 리턴

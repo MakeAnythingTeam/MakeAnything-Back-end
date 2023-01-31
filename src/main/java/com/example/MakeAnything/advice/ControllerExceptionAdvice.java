@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
-import java.util.Stack;
-
 import static com.example.MakeAnything.domain.common.exception.type.ErrorCode.*;
 import static java.util.stream.Collectors.joining;
 
@@ -43,7 +41,6 @@ public class ControllerExceptionAdvice {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(joining("\n"));
         log.error("MethodArgumentNotValidException : {}", errorMessage);
-        Stack
         return ApiResponse.error(INVALID, errorMessage);
     }
 
