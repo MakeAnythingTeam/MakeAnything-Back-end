@@ -12,6 +12,7 @@ public enum ErrorCode {
     INVALID_MISSING_AUTH_TOKEN("BR105", "인증 토큰을 입력해주세요"),
 
     INVALID_AUTH_TOKEN( "BR200", "만료되거나 유효하지 않은 인증 토큰입니다"),
+    INVALID_REFRESH_TOKEN( "BR209", "만료되거나 유효하지 않은 인증 토큰입니다"),
     INVALID_KAKAO_TOKEN( "BR201", "만료되거나 유효하지 않은 카카오 토큰입니다"),
     INVALID_CONTACTS_NUMBER_FORMAT( "BR202", "잘못된 연락처 번호입니다."),
     INVALID_EMPTY_UPLOAD_FILE_NAME( "BR206", "잘못된 파일입니다\n파일의 이름이 없습니다."),

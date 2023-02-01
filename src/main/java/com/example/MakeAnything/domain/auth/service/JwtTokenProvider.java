@@ -1,13 +1,11 @@
 package com.example.MakeAnything.domain.auth.service;
 
 import com.example.MakeAnything.domain.auth.model.CustomUserDetails;
-import com.example.MakeAnything.domain.common.exception.BaseException;
-import com.example.MakeAnything.domain.common.exception.type.ErrorCode;
+import com.example.MakeAnything.domain.auth.model.RefreshToken;
+import com.example.MakeAnything.domain.auth.repository.RefreshTokenRepository;
 import com.example.MakeAnything.domain.user.repository.UserRepository;
 import io.jsonwebtoken.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,12 +29,13 @@ public class JwtTokenProvider {
     private final Long REFRESH_TOKEN_EXPIRE_LENGTH = 1000L * 60 * 60 * 24 * 7;	// 1week
     private final String AUTHORITIES_KEY = "role";
 
-    @Autowired
-    private UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    public JwtTokenProvider(@Value("${app.auth.token.secret-key}") String secretKey, @Value("${app.auth.token.refresh-cookie-key}") String cookieKey) {
+    public JwtTokenProvider(@Value("${app.auth.token.secret-key}") String secretKey, @Value("${app.auth.token.refresh-cookie-key}") String cookieKey,
+                            RefreshTokenRepository refreshTokenRepository) {
         this.SECRET_KEY = Base64.getEncoder().encodeToString(secretKey.getBytes());
         this.COOKIE_REFRESH_TOKEN_KEY = cookieKey;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     public String createAccessToken(Authentication authentication) {
@@ -86,9 +85,14 @@ public class JwtTokenProvider {
 
     private void saveRefreshToken(Authentication authentication, String refreshToken) {
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
-        Long id = Long.valueOf(user.getName());
 
-        userRepository.updateRefreshToken(id, refreshToken);
+        RefreshToken token = RefreshToken.builder()
+                .userId(user.getName())
+                .refreshToken(refreshToken)
+                .expiredTime(REFRESH_TOKEN_EXPIRE_LENGTH/1000)    // 1week
+                .build();
+
+        refreshTokenRepository.save(token);
     }
 
     // Access Token을 검사하고 얻은 정보로 Authentication 객체 생성
